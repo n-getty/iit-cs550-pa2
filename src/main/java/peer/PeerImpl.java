@@ -3,10 +3,15 @@ package main.java.peer;
 import java.nio.file.Files;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteServer;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Server part of the Peer
@@ -14,10 +19,10 @@ import java.nio.file.Paths;
 public class PeerImpl implements PeerInt {
 
     String folder;
-    Set fileIndex = new HashSet<String>();
-    Map upstreamMap = new HashMap<String, String>
+    Set<String> fileIndex = new HashSet<String>();
+    Map<String, String> upstreamMap = new HashMap<String, String>();
     String thisIP;
-    String thisPort;
+    int thisPort;
     String[] neighbors;
     int maxTTL = 5;
 
@@ -41,7 +46,7 @@ public class PeerImpl implements PeerInt {
     /**
      * Pass chunks of the file to the clients remote peer object until the file is written
      */
-    public byte[] retrieve(String fileName)
+    public byte[] obtain(String fileName)
 	throws IOException, RemoteException {
 
         try {
@@ -55,15 +60,17 @@ public class PeerImpl implements PeerInt {
         return x;
     }
 
-    public void query (int messageID, int TTL, String fileName)
+    public void query (String messageID, int TTL, String fileName)
             throws RemoteException {
 
         try {
-            if(!upstreamMap.contains(messageID) && TTL > 0) {
+            String upstreamIP = RemoteServer.getClientHost();
+            if(!upstreamMap.containsKey(messageID) && TTL > 0) {
+                upstreamMap.put(messageID, upstreamIP);
                 if (fileIndex.contains(fileName)) {
-                    queryhit(messageID, TTL - 1, fileName, thisIP, thisPort)
+                    queryhit(messageID, fileName, thisIP, thisPort);
                 }
-                queryNeighbors(fileName)
+                queryNeighbors(fileName);
             }
         }
         catch(Exception e) {
@@ -72,10 +79,20 @@ public class PeerImpl implements PeerInt {
     }
 
 
-    public void queryhit(int messageID, int TTL, String fileName, String peerIP, String portNumber)
+    public void queryhit(String messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
         try {
-
+            String upstreamIP = upstreamMap.get(messageID);
+            if(upstreamIP.equals(thisIP)){
+                Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
+                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+                byte[] requestedFile = peerStub.obtain(fileName);
+            }
+            else {
+                Registry registry = LocateRegistry.getRegistry(upstreamIP, 1099);
+                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+                peerStub.queryhit(messageID, fileName, peerIP, portNumber);
+            }
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -84,10 +101,11 @@ public class PeerImpl implements PeerInt {
 
     public void queryNeighbors(String fileName){
         try {
+            String messageID = "";
             for (String neighbor : neighbors) {
                 Registry registry = LocateRegistry.getRegistry(neighbor,1099);
                 PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
-                peerStub.query(messageID, maxTTL, fileName)
+                peerStub.query(messageID, maxTTL, fileName);
             }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
