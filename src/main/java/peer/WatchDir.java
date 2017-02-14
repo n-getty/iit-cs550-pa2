@@ -1,14 +1,22 @@
+/*   This file is from oracle
+ *       copyright oracle 
+ *       all rights reserved
+ *       
+ *   https://docs.oracle.com/javase/tutorial/essential/io/notification.html
+ *       
+ */
+
 package main.java.peer;
 
-        import java.nio.file.*;
-        import static java.nio.file.StandardWatchEventKinds.*;
-        import static java.nio.file.LinkOption.*;
-        import java.nio.file.attribute.*;
-        import java.io.*;
-        import java.util.*;
+import java.nio.file.*;
+import static java.nio.file.StandardWatchEventKinds.*;
+import static java.nio.file.LinkOption.*;
+import java.nio.file.attribute.*;
+import java.io.*;
+import java.util.*;
 
 /**
- * Example to watch a directory (or tree) for changes to files.
+ * Watches a directory (or tree) for changes to files. Taken from oracle documents and modified to register files to the index server
  */
 
 public class WatchDir {
@@ -48,14 +56,14 @@ public class WatchDir {
     private void registerAll(final Path start) throws IOException {
         // register directory and sub-directories
         Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+                @Override
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
                     throws IOException
-            {
-                register(dir);
-                return FileVisitResult.CONTINUE;
-            }
-        });
+                {
+                    register(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
     }
 
     /**
@@ -81,7 +89,7 @@ public class WatchDir {
     /**
      * Process all events for keys queued to the watcher
      */
-    void processEvents() {
+    void processEvents(Client client) {
         for (;;) {
 
             // wait for key to be signalled
@@ -112,8 +120,17 @@ public class WatchDir {
                 Path child = dir.resolve(name);
 
                 // print out event
-                System.out.format("%s: %s\n", event.kind().name(), child);
-
+                //System.out.format("%s: %s\n", event.kind().name(), child);
+		
+		// if event is  = create call register
+		if (kind == ENTRY_CREATE) {
+		    client.register(name.toString());
+		}
+		if (kind == ENTRY_DELETE) {
+		    client.deregister(name.toString());
+		}
+		// if event is == delete call deregister
+		
                 // if directory is created, and watching recursively, then
                 // register it and its sub-directories
                 if (recursive && (kind == ENTRY_CREATE)) {
@@ -141,25 +158,27 @@ public class WatchDir {
     }
 
     static void usage() {
-        System.err.println("usage: java WatchDir [-r] dir");
+        System.err.println("usage: java WatchDir [-r] dir ID");
         System.exit(-1);
     }
 
     public static void main(String[] args) throws IOException {
         // parse arguments
-        if (args.length == 0 || args.length > 2)
+	if (args.length == 0 || args.length > 3)
             usage();
         boolean recursive = false;
         int dirArg = 0;
-        if (args[0].equals("-r")) {
-            if (args.length < 2)
+	
+	if (args[0].equals("-r")) {
+            if (args.length < 3)
                 usage();
             recursive = true;
             dirArg++;
-        }
-
+	}
+	
         // register directory and process its events
+	Client client = new Client(args[dirArg+1]);
         Path dir = Paths.get(args[dirArg]);
-        new WatchDir(dir, recursive).processEvents();
+        new WatchDir(dir, recursive).processEvents(client);
     }
 }

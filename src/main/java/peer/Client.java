@@ -1,70 +1,95 @@
 package main.java.peer;
 
 import main.java.host.IndexInt;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+import java.io.File;
 
+
+/**
+ * Client class creates client to index server 
+ */
 public class Client {
-	IndexInt indexStub;
-	String id;
-	List<String> fileList = new ArrayList<String>();
-	PeerInt thisStub;
+    // Remote object of indexing server
+    IndexInt indexStub;
+    // ID of this peer
+    String id;
+    // contains the file objects
+    List<File> files = new ArrayList<File>();
+    // contains the list of file names ( for registering )
+    List<String> fileList = new ArrayList<String>();
+
 
     public Client(String host) {
-		registerAll();
-		try {
-			PeerImpl thisPeer = new PeerImpl();
-			Registry registry = LocateRegistry.getRegistry(host);
-			indexStub = (IndexInt) registry.lookup("IndexInt");
-			thisStub = (PeerInt) LocateRegistry.getRegistry(id).lookup("PeerInt");
-		} catch (Exception e) {
-			System.err.println("Client exception: " + e.toString());
-			e.printStackTrace();
-		}
-	}
+	id = host;
+	try {
+	    Registry remoteregistry = LocateRegistry.getRegistry("10.0.0.1", 1099);
+	    indexStub = (IndexInt) remoteregistry.lookup("IndexInt");
+	    // register functions for peer:server
+	    
+	} catch (Exception e) {
+            System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
 
-    public void register(String fileName){
-		fileList.add(fileName);
-		try {
-			indexStub.register(id, fileName);
-		} catch (Exception e) {
-			System.err.println("Client exception: " + e.toString());
-			e.printStackTrace();
-		}
-	}
 
-	public void registerAll(){
-		try {
-			for(String fileName : fileList)
-				indexStub.register(id, fileName);
-		} catch (Exception e) {
-			System.err.println("Client exception: " + e.toString());
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Store all the file names of a given directory
+     */
+    public void getFilesToRegister(String folder) {
+        // currently we only support files inside of folders (i.e. no folders inside folders)
 
-	public List<String> lookup(String fileName){
-		List targetIds = null;
-		try {
-			targetIds = indexStub.lookup(fileName);
-		} catch (Exception e) {
-			System.err.println("Client exception: " + e.toString());
-			e.printStackTrace();
-		}
-		return targetIds;
-	}
+        // read in files from given folder
+        File fold = new File("./"+folder);
+        File[] listOfFiles = fold.listFiles();
 
-	public void retrieve(String fileName, String peerId){
-		try {
-			Registry registry = LocateRegistry.getRegistry(peerId);
-			PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
-			peerStub.retrieve(fileName, thisStub);
-		} catch (Exception e) {
-			System.err.println("Client exception: " + e.toString());
-			e.printStackTrace();
-		}
-	}
+        // convert list of files into ArrayList of strings
+        // the strings are the names
+
+        files = Arrays.asList(listOfFiles);
+        int i;
+	for(i=0;i<listOfFiles.length;i++) {
+            fileList.add(listOfFiles[i].getName());
+        }
+    }
+
+
+    /**
+     * Get the list of peers that have a given file
+     */
+    public List<String> lookup(String fileName){
+        List targetIds = null;
+        try {
+            targetIds = indexStub.lookup(fileName);
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+        return targetIds;
+    }
+
+    /**
+     * Retrieve a file from a given peer
+     */
+    public byte[] retrieve(String fileName, String peerId){
+        try {
+	    System.out.println("INFO: connecting to "+peerId+" to obtain file "+fileName);
+	        // Get the remote object for the given peer
+            Registry registry = LocateRegistry.getRegistry(peerId,1099);
+            PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+	    return peerStub.retrieve(fileName);
+	    
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+	byte[] x = "x".getBytes();
+	return x;
+    }
+
+
 }
