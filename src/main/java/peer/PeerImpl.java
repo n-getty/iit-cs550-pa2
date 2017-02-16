@@ -48,9 +48,6 @@ public class PeerImpl implements PeerInt {
         }
     }
 
-    public void updateFileIndex(Set<String> fileList){
-        fileIndex = fileList;
-    }
     /**
      * Pass chunks of the file to the clients remote peer object until the file is written
      */
@@ -91,9 +88,10 @@ public class PeerImpl implements PeerInt {
     public void queryhit(Pair<String, Integer> messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
         try {
-            if(messageID.getKey().equals(thisIP)){
+            if(messageID.getKey().equals(thisIP) && !fileIndex.contains(fileName)){
                 Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
                 PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+                fileIndex.add(fileName);
                 byte[] requestedFile = peerStub.obtain(fileName);
                 writeFile(requestedFile, fileName);
             }

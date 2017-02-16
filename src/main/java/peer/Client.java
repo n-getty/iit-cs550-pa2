@@ -18,7 +18,6 @@ public class Client {
     // contains the file objects
     List<File> files = new ArrayList<File>();
     // contains the list of file names ( for registering )
-    Set<String> fileList = new HashSet<String>();
     int maxTTL = 5;
     PeerImpl peerServ;
     int sequenceNum = 0;
@@ -26,8 +25,7 @@ public class Client {
     public Client(String folder, String id) {
 	try {
 	    this.id = id;
-	    createFileIndex(folder);
-        peerServ = new PeerImpl(folder, getNeighbors(folder), fileList, id);
+        peerServ = new PeerImpl(folder, getNeighbors(folder), getFileIndex(folder), id);
 	} catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
@@ -56,7 +54,7 @@ public class Client {
     /**
      * Store all the file names of a given directory
      */
-    public void createFileIndex(String folder) {
+    public Set<String> getFileIndex(String folder) {
         // currently we only support files inside of folders (i.e. no folders inside folders)
 
         // read in files from given folder
@@ -65,22 +63,20 @@ public class Client {
 
         // convert list of files into ArrayList of strings
         // the strings are the names
-
+        Set<String> fileList = new HashSet<String>();
         files = Arrays.asList(listOfFiles);
-        int i;
-	    for(i=0;i<listOfFiles.length;i++) {
+	    for(int i=0;i<listOfFiles.length;i++) {
             fileList.add(listOfFiles[i].getName());
         }
+        return fileList;
     }
 
     public void register(String fileName){
-        fileList.add(fileName);
-        peerServ.updateFileIndex(fileList);
+        peerServ.fileIndex.add(fileName);
     }
 
     public void deregister(String fileName){
-        fileList.remove(fileName);
-        peerServ.updateFileIndex(fileList);
+        peerServ.fileIndex.remove(fileName);
     }
 
     /**
