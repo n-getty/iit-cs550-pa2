@@ -32,6 +32,7 @@ public class PeerImpl implements PeerInt {
      */
     public PeerImpl(String folder, String[] neighbors, Set<String> fileIndex, String id) {
         try {
+            this.folder = folder;
             thisIP = id;
             this.neighbors = neighbors;
             this.fileIndex = fileIndex;
@@ -90,14 +91,14 @@ public class PeerImpl implements PeerInt {
     public void queryhit(Pair<String, Integer> messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
         try {
-            String upstreamIP = upstreamMap.get(messageID)
-            if(upstreamIP.equals(thisIP)){
+            if(messageID.getKey().equals(thisIP)){
                 Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
                 PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                 byte[] requestedFile = peerStub.obtain(fileName);
                 writeFile(requestedFile, fileName);
             }
             else {
+                String upstreamIP = upstreamMap.get(messageID);
                 Registry registry = LocateRegistry.getRegistry(upstreamIP, portNumber);
                 PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                 peerStub.queryhit(messageID, fileName, peerIP, portNumber);

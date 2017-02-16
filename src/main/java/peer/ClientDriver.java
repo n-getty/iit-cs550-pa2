@@ -17,11 +17,11 @@ public class ClientDriver {
             throws IOException {
 
         /*  create new client object
-         *  args[0] is the directory of the files to download to
-         *  args[1] is the local ip address of this peer
+         *  args[0] is the unique ID of the client (i.e. the IP address)
+         *  args[1] is the directory of the files to download to
          */
-        String folder = args[0];
-        String id = args[1];
+        String folder = args[1];
+        String id = args[0];
         System.out.println("INFO: Initializing Peer...");
         Client peerClient = new Client(folder, id);
         System.out.println("INFO: Client Process initialized...");
@@ -38,8 +38,7 @@ public class ClientDriver {
         if (args.length > 2) {
 
             for (int i = 0; i < 1000; i++) {
-                List<String> peers = peerClient.lookup("file10.txt");
-                byte[] x = peerClient.retrieve("file10.txt", peers.get(0));
+                byte[] x = peerClient.retrieve("file10.txt");
                 try {
                     FileOutputStream out = new FileOutputStream(new File(folder + "/" + "file10_" + i + ".txt"));
                     out.write(x);
@@ -62,21 +61,14 @@ public class ClientDriver {
                 System.out.println("\nALERT: Process exiting... \n Goodbye.");
                 System.exit(0);
             }
-            List<String> peers = peerClient.lookup(query);
-            if (peers == null) {
-                System.out.println("WARNING: No peers for that file\n\ttry a new filename");
-            } else {
-                byte[] x = peerClient.retrieve(query, peers.get(0));
-                try {
-                    FileOutputStream out = new FileOutputStream(new File(folder + "/" + query));
-                    out.write(x);
-                    out.close();
+            byte[] x = peerClient.retrieve(query);
+            try {
+                FileOutputStream out = new FileOutputStream(new File(folder + "/" + query));
+                out.write(x);
+                out.close();
 
-                } catch (IOException e) {
-                    System.out.println("Exception" + e);
-                }
-                // save file in directory
-
+            } catch (IOException e) {
+                System.out.println("Exception" + e);
             }
         }
     }
