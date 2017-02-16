@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Client Driver is the main program on the peer to obtain and return files
  */
-public class ClientDriver {// implements PeerInt {
+public class ClientDriver {
 
     /**
      * Main function creates client to server, and initiates peer server
@@ -16,23 +16,16 @@ public class ClientDriver {// implements PeerInt {
     public static void main(String[] args)
             throws IOException {
 
-        System.setProperty("java.rmi.server.hostname", args[0]);
         /*  create new client object
-         *  args[0] is the unique ID of the client (i.e. the IP address)
-         *  args[1] is the directory of the files to download to
+         *  args[0] is the directory of the files to download to
          */
-        String folder = args[1];
+        String folder = args[0];
 
         System.out.println("INFO: Initializing Peer...");
-        Client peerClient = new Client(args[0]);
-        PeerImpl peerServ = new PeerImpl(folder);
-
+        Client peerClient = new Client(folder);
         System.out.println("INFO: Client Process initialized...");
 
-        System.out.println("INFO: Registering Files in: ./" + folder + "/");
-        peerClient.getFilesToRegister(folder);
-        peerClient.registerAll();
-        System.out.println("INFO: Files Sucessfully Registered... ");
+        System.out.println("INFO: Indexing Files in: ./" + folder + "/");
 
         Scanner input = new Scanner(System.in);
         System.out.println("\nInput 'exit' to close the application at anytime");

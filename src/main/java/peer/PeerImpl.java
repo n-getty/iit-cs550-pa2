@@ -19,19 +19,20 @@ import java.util.Set;
 public class PeerImpl implements PeerInt {
 
     String folder;
-    Set<String> fileIndex = new HashSet<String>();
-    Map<String, String> upstreamMap = new HashMap<String, String>();
+    Set<String> fileIndex;
+    Map<String, String> upstreamMap;
     String thisIP;
     int thisPort;
     String[] neighbors;
-    int maxTTL = 5;
 
     /**
      * Constructor for exporting each peer to the registry
      */
-    public PeerImpl(String fold) {
-        folder = fold;
+    public PeerImpl(String folder, String[] neighbors, Set<String> fileIndex) {
         try {
+            this.neighbors = neighbors;
+            this.fileIndex = fileIndex;
+            upstreamMap = new HashMap<String, String>();
             PeerInt stub = (PeerInt) UnicastRemoteObject.exportObject(this, 0);
             // Bind the remote object's stub in the registry
             Registry registry = LocateRegistry.getRegistry();
@@ -43,11 +44,14 @@ public class PeerImpl implements PeerInt {
         }
     }
 
+    public void updateFileIndex(Set<String> fileList){
+        fileIndex = fileList;
+    }
     /**
      * Pass chunks of the file to the clients remote peer object until the file is written
      */
     public byte[] obtain(String fileName)
-	throws IOException, RemoteException {
+	throws IOException {
 
         try {
             byte[] requestedFile = Files.readAllBytes(Paths.get(folder+"/"+fileName));
@@ -60,7 +64,7 @@ public class PeerImpl implements PeerInt {
         return x;
     }
 
-    public void query (String messageID, int TTL, String fileName)
+    public void query (int messageID, int TTL, String fileName)
             throws RemoteException {
 
         try {
@@ -70,7 +74,8 @@ public class PeerImpl implements PeerInt {
                 if (fileIndex.contains(fileName)) {
                     queryhit(messageID, fileName, thisIP, thisPort);
                 }
-                queryNeighbors(fileName);
+                if(TTL > 1)
+                    queryNeighbors(fileName, TTL - 1, messageID);
             }
         }
         catch(Exception e) {
@@ -83,14 +88,13 @@ public class PeerImpl implements PeerInt {
             throws RemoteException {
         try {
             String upstreamIP = upstreamMap.get(messageID);
+            Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
+            PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
             if(upstreamIP.equals(thisIP)){
-                Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
-                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                 byte[] requestedFile = peerStub.obtain(fileName);
+                writeFile(requestedFile, fileName);
             }
             else {
-                Registry registry = LocateRegistry.getRegistry(upstreamIP, 1099);
-                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                 peerStub.queryhit(messageID, fileName, peerIP, portNumber);
             }
         }
@@ -99,13 +103,12 @@ public class PeerImpl implements PeerInt {
         }
     }
 
-    public void queryNeighbors(String fileName){
+    public void queryNeighbors(String fileName, int TTL, int messageID){
         try {
-            String messageID = "";
             for (String neighbor : neighbors) {
                 Registry registry = LocateRegistry.getRegistry(neighbor,1099);
                 PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
-                peerStub.query(messageID, maxTTL, fileName);
+                peerStub.query(messageID, TTL, fileName);
             }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
@@ -113,4 +116,14 @@ public class PeerImpl implements PeerInt {
         }
     }
 
+    public void writeFile(byte[] x, String fileName){
+        try {
+            FileOutputStream out = new FileOutputStream(new File(folder + "/" + fileName));
+            out.write(x);
+            out.close();
+
+        } catch (IOException e) {
+            System.out.println("Exception" + e);
+        }
+    }
 }

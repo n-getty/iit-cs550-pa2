@@ -177,7 +177,7 @@ public class WatchDir {
 	}
 	
         // register directory and process its events
-	Client client = new Client(args[dirArg+1]);
+	    Client client = new Client(args[dirArg+1]);
         Path dir = Paths.get(args[dirArg]);
         new WatchDir(dir, recursive).processEvents(client);
     }
