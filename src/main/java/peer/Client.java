@@ -1,5 +1,7 @@
 package main.java.peer;
 
+import javafx.util.Pair;
+
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,12 +21,13 @@ public class Client {
     Set<String> fileList = new HashSet<String>();
     int maxTTL = 5;
     PeerImpl peerServ;
-    int messageID = 0;
+    int sequenceNum = 0;
 
-    public Client(String folder) {
+    public Client(String folder, String id) {
 	try {
+	    this.id = id;
 	    createFileIndex(folder);
-        peerServ = new PeerImpl(folder, getNeighbors(folder), fileList);
+        peerServ = new PeerImpl(folder, getNeighbors(folder), fileList, id);
 	} catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
@@ -85,7 +88,8 @@ public class Client {
      */
     public byte[] retrieve(String fileName){
         try {
-	        peerServ.queryNeighbors(fileName, maxTTL, messageID++;);
+            Pair<String, Integer> messageID = new Pair(id, sequenceNum++);
+	        peerServ.queryNeighbors(fileName, maxTTL, messageID);
 	    
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
@@ -94,6 +98,5 @@ public class Client {
 	    byte[] x = "x".getBytes();
 	    return x;
     }
-
 
 }

@@ -18,11 +18,12 @@ public class ClientDriver {
 
         /*  create new client object
          *  args[0] is the directory of the files to download to
+         *  args[1] is the local ip address of this peer
          */
         String folder = args[0];
-
+        String id = args[1];
         System.out.println("INFO: Initializing Peer...");
-        Client peerClient = new Client(folder);
+        Client peerClient = new Client(folder, id);
         System.out.println("INFO: Client Process initialized...");
 
         System.out.println("INFO: Indexing Files in: ./" + folder + "/");

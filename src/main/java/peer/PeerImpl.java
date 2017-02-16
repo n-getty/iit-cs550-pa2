@@ -1,5 +1,7 @@
 package main.java.peer;
 
+import javafx.util.Pair;
+
 import java.nio.file.Files;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -20,7 +22,7 @@ public class PeerImpl implements PeerInt {
 
     String folder;
     Set<String> fileIndex;
-    Map<String, String> upstreamMap;
+    Map<Pair<String, Integer>, String> upstreamMap;
     String thisIP;
     int thisPort;
     String[] neighbors;
@@ -28,11 +30,12 @@ public class PeerImpl implements PeerInt {
     /**
      * Constructor for exporting each peer to the registry
      */
-    public PeerImpl(String folder, String[] neighbors, Set<String> fileIndex) {
+    public PeerImpl(String folder, String[] neighbors, Set<String> fileIndex, String id) {
         try {
+            thisIP = id;
             this.neighbors = neighbors;
             this.fileIndex = fileIndex;
-            upstreamMap = new HashMap<String, String>();
+            upstreamMap = new HashMap<Pair<String, Integer>, String>();
             PeerInt stub = (PeerInt) UnicastRemoteObject.exportObject(this, 0);
             // Bind the remote object's stub in the registry
             Registry registry = LocateRegistry.getRegistry();
@@ -64,7 +67,7 @@ public class PeerImpl implements PeerInt {
         return x;
     }
 
-    public void query (int messageID, int TTL, String fileName)
+    public void query (Pair<String, Integer> messageID, int TTL, String fileName)
             throws RemoteException {
 
         try {
@@ -84,17 +87,19 @@ public class PeerImpl implements PeerInt {
     }
 
 
-    public void queryhit(String messageID, String fileName, String peerIP, int portNumber)
+    public void queryhit(Pair<String, Integer> messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
         try {
-            String upstreamIP = upstreamMap.get(messageID);
-            Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
-            PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+            String upstreamIP = upstreamMap.get(messageID)
             if(upstreamIP.equals(thisIP)){
+                Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
+                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                 byte[] requestedFile = peerStub.obtain(fileName);
                 writeFile(requestedFile, fileName);
             }
             else {
+                Registry registry = LocateRegistry.getRegistry(upstreamIP, portNumber);
+                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                 peerStub.queryhit(messageID, fileName, peerIP, portNumber);
             }
         }
@@ -103,7 +108,7 @@ public class PeerImpl implements PeerInt {
         }
     }
 
-    public void queryNeighbors(String fileName, int TTL, int messageID){
+    public void queryNeighbors(String fileName, int TTL, Pair<String, Integer> messageID){
         try {
             for (String neighbor : neighbors) {
                 Registry registry = LocateRegistry.getRegistry(neighbor,1099);
