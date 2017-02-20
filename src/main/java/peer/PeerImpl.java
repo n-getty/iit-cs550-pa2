@@ -10,19 +10,17 @@ import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Server part of the Peer
  */
 public class PeerImpl implements PeerInt {
-
+    private static final int MAX_ENTRIES = 100;
     String folder;
     Set<String> fileIndex;
-    Map<Pair<String, Integer>, String> upstreamMap;
+    //Map<Pair<String, Integer>, String> upstreamMap;
+    LinkedHashMap<Pair<String, Integer>, String> upstreamMap;
     String thisIP;
     int thisPort;
     String[] neighbors;
@@ -36,7 +34,13 @@ public class PeerImpl implements PeerInt {
             thisIP = id;
             this.neighbors = neighbors;
             this.fileIndex = fileIndex;
-            upstreamMap = new HashMap<Pair<String, Integer>, String>();
+            //upstreamMap = new HashMap<Pair<String, Integer>, String>();
+            upstreamMap = new LinkedHashMap<Pair<String, Integer>, String>(MAX_ENTRIES + 1, .75F, false){
+
+                protected boolean removeEldestEntry(Map.Entry eldest) {
+                    return size() > MAX_ENTRIES;
+                }
+            };
             PeerInt stub = (PeerInt) UnicastRemoteObject.exportObject(this, 0);
             // Bind the remote object's stub in the registry
             Registry registry = LocateRegistry.getRegistry();
@@ -70,12 +74,12 @@ public class PeerImpl implements PeerInt {
 
         try {
             String upstreamIP = RemoteServer.getClientHost();
-            if(!upstreamMap.containsKey(messageID) && TTL > 0) {
+            if(!upstreamMap.containsKey(messageID) && TTL >= 0) {
                 upstreamMap.put(messageID, upstreamIP);
                 if (fileIndex.contains(fileName)) {
                     queryhit(messageID, fileName, thisIP, thisPort);
                 }
-                if(TTL > 1)
+                if(TTL > 0)
                     queryNeighbors(fileName, TTL - 1, messageID);
             }
         }
@@ -130,4 +134,6 @@ public class PeerImpl implements PeerInt {
             System.out.println("Exception" + e);
         }
     }
+
+
 }
