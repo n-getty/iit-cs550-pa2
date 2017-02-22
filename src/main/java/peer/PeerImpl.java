@@ -19,7 +19,6 @@ public class PeerImpl implements PeerInt {
     private static final int MAX_ENTRIES = 100;
     String folder;
     Set<String> fileIndex;
-    //Map<Pair<String, Integer>, String> upstreamMap;
     LinkedHashMap<Pair<String, Integer>, String> upstreamMap;
     String thisIP;
     int thisPort;
@@ -92,12 +91,15 @@ public class PeerImpl implements PeerInt {
     public void queryhit(Pair<String, Integer> messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
         try {
-            if(messageID.getKey().equals(thisIP) && !fileIndex.contains(fileName)){
-                Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
-                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
-                fileIndex.add(fileName);
-                byte[] requestedFile = peerStub.obtain(fileName);
-                writeFile(requestedFile, fileName);
+            if(messageID.getKey().equals(thisIP)){
+                //Insert Time Stamp Log Here
+                if(!fileIndex.contains(fileName)) {
+                    Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
+                    PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+                    fileIndex.add(fileName);
+                    byte[] requestedFile = peerStub.obtain(fileName);
+                    writeFile(requestedFile, fileName);
+                }
             }
             else {
                 String upstreamIP = upstreamMap.get(messageID);
@@ -134,6 +136,4 @@ public class PeerImpl implements PeerInt {
             System.out.println("Exception" + e);
         }
     }
-
-
 }

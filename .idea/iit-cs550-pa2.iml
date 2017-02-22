@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file:///production/iit-cs550-pa2" />
+    <output url="file://$MODULE_DIR$/../production/iit-cs550-pa2" />
     <output-test url="file:///test/iit-cs550-pa2" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">

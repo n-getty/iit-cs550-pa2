@@ -1,6 +1,8 @@
 package main.java.peer;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 
@@ -15,15 +17,16 @@ public class ClientDriver {
      */
     public static void main(String[] args)
             throws IOException {
-
         /*  create new client object
-         *  args[0] is the unique ID of the client (i.e. the IP address)
-         *  args[1] is the directory of the files to download to
+         *  args[0] is the directory of the files to download to
+         *  args[1] is the topology for the neighbors
          */
-        String folder = args[1];
-        String id = args[0];
+
+        String folder = args[0];
+        String topology = args[1];
+        String id = getIP();
         System.out.println("INFO: Initializing Peer...");
-        Client peerClient = new Client(folder, id);
+        Client peerClient = new Client(folder, id, topology);
         System.out.println("INFO: Client Process initialized...");
 
         System.out.println("INFO: Indexing Files in: ./" + folder + "/");
@@ -71,5 +74,15 @@ public class ClientDriver {
                 System.out.println("Exception" + e);
             }
         }
+    }
+
+    public static String getIP(){
+        try {
+            InetAddress ipAddr = InetAddress.getLocalHost();
+            return ipAddr.toString();
+        } catch (UnknownHostException ex) {
+            ex.printStackTrace();
+        }
+        return "";
     }
 }

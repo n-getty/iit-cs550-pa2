@@ -3,8 +3,6 @@ package main.java.peer;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.*;
 import java.io.File;
 
@@ -22,10 +20,10 @@ public class Client {
     PeerImpl peerServ;
     int sequenceNum = 0;
 
-    public Client(String folder, String id) {
+    public Client(String folder, String id, String topology) {
 	try {
 	    this.id = id;
-        peerServ = new PeerImpl(folder, getNeighbors(folder), getFileIndex(folder), id);
+        peerServ = new PeerImpl(folder, getNeighbors(topology), getFileIndex(folder), id);
 	} catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
@@ -36,13 +34,13 @@ public class Client {
     public  String[] getNeighbors(String folder){
         String[] neighbors = null;
         try {
-            Set<String> neighborSet = new HashSet<String>();
+            List<String> neighborList = new ArrayList<String>();
             File fold = new File("./" + folder + "/" + "neighbors.txt");
             Scanner fileReader = new Scanner(fold);
             while(fileReader.hasNextLine()){
-                neighborSet.add(fileReader.nextLine());
+                neighborList.add(fileReader.nextLine());
             }
-            neighbors = (String[]) neighborSet.toArray();
+            neighbors = neighborList.get(Integer.parseInt(id.substring(id.length()-1))-1).split(" ");
         }
         catch(IOException e){
             System.err.println("Client exception: " + e.toString());

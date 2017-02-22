@@ -4,7 +4,6 @@ import javafx.util.Pair;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.*;
-import java.util.List;
 
 /**
  * Interface for peer data transfer methods
