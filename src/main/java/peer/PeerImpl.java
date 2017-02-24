@@ -76,7 +76,7 @@ public class PeerImpl implements PeerInt {
                 upstreamMap.put(messageID, upstreamIP);
 
 		if (fileIndex.contains(fileName)) {
-                    queryhit(messageID, fileName, thisIP, thisPort);
+                    queryhit(messageID, fileName, thisIP, 1099);
                 }
                 if(TTL > 0)
                     queryNeighbors(fileName, TTL - 1, messageID);
