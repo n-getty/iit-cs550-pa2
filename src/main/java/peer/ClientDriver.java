@@ -27,6 +27,7 @@ public class ClientDriver {
         // String id = getIP();
 	String id = args[2];
         System.setProperty("java.rmi.server.hostname", id);
+
 	System.out.println("INFO: Initializing Peer..." + folder + " " + id + " " + topology);
 	Client peerClient = new Client(folder, id, topology);
         System.out.println("INFO: Client Process initialized...");
