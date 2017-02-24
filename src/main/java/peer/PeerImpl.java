@@ -42,7 +42,7 @@ public class PeerImpl implements PeerInt {
             };
             PeerInt stub = (PeerInt) UnicastRemoteObject.exportObject(this, 0);
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(id);
             registry.rebind("PeerInt", stub);
             System.err.println("PeerImpl ready");
         } catch (Exception e) {
@@ -70,12 +70,12 @@ public class PeerImpl implements PeerInt {
 
     public void query (Pair<String, Integer> messageID, int TTL, String fileName)
             throws RemoteException {
-
-        try {
+	try {
             String upstreamIP = RemoteServer.getClientHost();
             if(!upstreamMap.containsKey(messageID) && TTL >= 0) {
                 upstreamMap.put(messageID, upstreamIP);
-                if (fileIndex.contains(fileName)) {
+
+		if (fileIndex.contains(fileName)) {
                     queryhit(messageID, fileName, thisIP, thisPort);
                 }
                 if(TTL > 0)
@@ -90,10 +90,14 @@ public class PeerImpl implements PeerInt {
 
     public void queryhit(Pair<String, Integer> messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
+        long time;
         try {
             if(messageID.getKey().equals(thisIP)){
                 //Insert Time Stamp Log Here
-                if(!fileIndex.contains(fileName)) {
+		time=System.nanoTime();
+		System.out.println("LOGGING: Receiving query: " + fileName + " " + time);
+
+		if(!fileIndex.contains(fileName)) {
                     Registry registry = LocateRegistry.getRegistry(peerIP, portNumber);
                     PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
                     fileIndex.add(fileName);
@@ -116,10 +120,14 @@ public class PeerImpl implements PeerInt {
     public void queryNeighbors(String fileName, int TTL, Pair<String, Integer> messageID){
         try {
             for (String neighbor : neighbors) {
-                Registry registry = LocateRegistry.getRegistry(neighbor,1099);
-                PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
-                peerStub.query(messageID, TTL, fileName);
-            }
+		System.out.println("neighbor found: " + neighbor);
+		Registry registry = LocateRegistry.getRegistry(neighbor,1099);
+		System.out.println("locate registry succeeded " + registry);
+		PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
+		System.out.println("registry lookup " + peerStub);
+		peerStub.query(messageID, TTL, fileName);
+		System.out.println("query succedded");
+	    }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();

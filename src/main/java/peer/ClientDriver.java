@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
-
 /**
  * Client Driver is the main program on the peer to obtain and return files
  */
@@ -24,9 +23,12 @@ public class ClientDriver {
 
         String folder = args[0];
         String topology = args[1];
-        String id = getIP();
-        System.out.println("INFO: Initializing Peer...");
-        Client peerClient = new Client(folder, id, topology);
+	
+        // String id = getIP();
+	String id = args[2];
+
+	System.out.println("INFO: Initializing Peer..." + folder + " " + id + " " + topology);
+	Client peerClient = new Client(folder, id, topology);
         System.out.println("INFO: Client Process initialized...");
 
         System.out.println("INFO: Indexing Files in: ./" + folder + "/");
@@ -38,25 +40,6 @@ public class ClientDriver {
         long old_time = 0;
         long time = System.nanoTime();
 
-        if (args.length > 2) {
-
-            for (int i = 0; i < 1000; i++) {
-                byte[] x = peerClient.retrieve("file10.txt");
-                try {
-                    FileOutputStream out = new FileOutputStream(new File(folder + "/" + "file10_" + i + ".txt"));
-                    out.write(x);
-                    out.close();
-                } catch (IOException e) {
-                    System.out.println("Exception" + e);
-                }
-                old_time = time;
-                time = System.nanoTime();
-                System.out.println(time - old_time);
-            }
-            System.exit(0);
-        }
-
-
         while (true) {
             System.out.println("\nInput name of file you want to obtain:\n");
             query = input.nextLine();
@@ -64,8 +47,12 @@ public class ClientDriver {
                 System.out.println("\nALERT: Process exiting... \n Goodbye.");
                 System.exit(0);
             }
+	    time=System.nanoTime();
+	    System.out.println("LOGGING: Requesting file: " + query + " " + time);
             byte[] x = peerClient.retrieve(query);
-            try {
+	    System.out.println("LOGGING: Requested file");
+		
+	    try {
                 FileOutputStream out = new FileOutputStream(new File(folder + "/" + query));
                 out.write(x);
                 out.close();
@@ -75,7 +62,7 @@ public class ClientDriver {
             }
         }
     }
-
+    /*
     public static String getIP(){
         try {
             InetAddress ipAddr = InetAddress.getLocalHost();
@@ -85,4 +72,5 @@ public class ClientDriver {
         }
         return "";
     }
+    // */
 }

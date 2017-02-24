@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.*;
 import java.io.File;
 
-
 /**
  * Client class creates client to index server 
  */
@@ -16,7 +15,7 @@ public class Client {
     // contains the file objects
     List<File> files = new ArrayList<File>();
     // contains the list of file names ( for registering )
-    int maxTTL = 5;
+    int maxTTL = 10;
     PeerImpl peerServ;
     int sequenceNum = 0;
 
@@ -30,12 +29,11 @@ public class Client {
         }
     }
 
-
     public  String[] getNeighbors(String folder){
         String[] neighbors = null;
         try {
             List<String> neighborList = new ArrayList<String>();
-            File fold = new File("./" + folder + "/" + "neighbors.txt");
+            File fold = new File("../topologies/" + folder + ".txt");
             Scanner fileReader = new Scanner(fold);
             while(fileReader.hasNextLine()){
                 neighborList.add(fileReader.nextLine());
@@ -82,8 +80,12 @@ public class Client {
      */
     public byte[] retrieve(String fileName){
         try {
+	    System.out.println("id " + id);
             Pair<String, Integer> messageID = new Pair(id, sequenceNum++);
-	        peerServ.queryNeighbors(fileName, maxTTL, messageID);
+
+	    System.out.println("LOGGING: begining query");
+	    peerServ.queryNeighbors(fileName, maxTTL, messageID);
+	    System.out.println("LOGGING: query sent");
 	    
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
@@ -92,5 +94,4 @@ public class Client {
 	    byte[] x = "x".getBytes();
 	    return x;
     }
-
 }
