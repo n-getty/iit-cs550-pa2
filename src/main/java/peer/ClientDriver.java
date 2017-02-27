@@ -50,7 +50,7 @@ public class ClientDriver {
             }
 	    time=System.nanoTime();
 	    System.out.println("LOGGING: Requesting file: " + query + " " + time);
-            byte[] x = peerClient.retrieve(query);
+	    peerClient.retrieve(query);
 	    System.out.println("LOGGING: Requested file");
 		
 	    try {

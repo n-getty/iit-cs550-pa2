@@ -78,7 +78,7 @@ public class Client {
     /**
      * Retrieve a file from a given peer
      */
-    public byte[] retrieve(String fileName){
+    public void retrieve(String fileName){
         try {
 	    System.out.println("id " + id);
             Pair<String, Integer> messageID = new Pair(id, sequenceNum++);
@@ -91,7 +91,5 @@ public class Client {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
-	    byte[] x = "x".getBytes();
-	    return x;
     }
 }
