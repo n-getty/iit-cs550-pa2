@@ -136,6 +136,7 @@ public class PeerImpl implements PeerInt {
 
     public void writeFile(byte[] x, String fileName){
         try {
+            System.out.println("LOGGING: Received File " + folder + "/" + fileName);
             FileOutputStream out = new FileOutputStream(new File(folder + "/" + fileName));
             out.write(x);
             out.close();

@@ -3,6 +3,8 @@ package main.java.peer;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -25,11 +27,13 @@ public class ClientDriver {
         String topology = args[1];
 	
         // String id = getIP();
-	String id = args[2];
+	    String id = args[2];
         System.setProperty("java.rmi.server.hostname", id);
 
-	System.out.println("INFO: Initializing Peer..." + folder + " " + id + " " + topology);
-	Client peerClient = new Client(folder, id, topology);
+	    System.out.println("INFO: Initializing Peer..." + folder + " " + id + " " + topology);
+	    Client peerClient = new Client(folder, id, topology);
+        Path dir = Paths.get(folder);
+        new WatchDir(dir, false).processEvents(peerClient);
         System.out.println("INFO: Client Process initialized...");
 
         System.out.println("INFO: Indexing Files in: ./" + folder + "/");
@@ -52,16 +56,6 @@ public class ClientDriver {
 	    System.out.println("LOGGING: Requesting file: " + query + " " + time);
 	    peerClient.retrieve(query);
 	    System.out.println("LOGGING: Requested file");
-		
-	    try {
-                FileOutputStream out = new FileOutputStream(new File(folder + "/" + query));
-                out.write(x);
-                out.close();
-		System.out.println("LOGGING: Received File " + folder + "/" + query);
-		
-            } catch (IOException e) {
-                System.out.println("Exception" + e);
-            }
         }
     }
     /*
