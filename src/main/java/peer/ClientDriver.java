@@ -49,17 +49,8 @@ public class ClientDriver {
             }
 	    time=System.nanoTime();
 	    System.out.println("LOGGING: Requesting file: " + query + " " + time);
-            byte[] x = peerClient.retrieve(query);
+        peerClient.retrieve(query);
 	    System.out.println("LOGGING: Requested file");
-		
-	    try {
-                FileOutputStream out = new FileOutputStream(new File(folder + "/" + query));
-                out.write(x);
-                out.close();
-
-            } catch (IOException e) {
-                System.out.println("Exception" + e);
-            }
         }
     }
     /*
