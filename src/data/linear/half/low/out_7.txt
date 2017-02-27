@@ -1,0 +1,8 @@
+INFO: Initializing Peer..../tests/test7 10.0.0.7 linear
+INFO: Client Process initialized...
+INFO: Indexing Files in: ././tests/test7/
+
+Input 'exit' to close the application at anytime
+
+Input name of file you want to obtain:
+

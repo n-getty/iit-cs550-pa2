@@ -41,7 +41,7 @@ class SingleSwitchTopo(Topo):
             
 def simpleTest():
     "Create and test a simple network"
-    number_of_hosts = 10
+    number_of_hosts = 9
     topo = SingleSwitchTopo(n=number_of_hosts)
     net = Mininet(topo,link = TCLink)
     net.start()
@@ -57,7 +57,8 @@ def simpleTest():
     for x in range(1,number_of_hosts+1):
         net.get('h%s'%x).cmd('rmiregistry &')
     for x in range(1,number_of_hosts+1):
-        net.get('h%s'%x).cmd('java main.java.peer.ClientDriver ./tests/test%s %s 10.0.0.%s < ../topologies/topo/input_%s.txt > ../topologies/topo/out_%s.txt 2&>1 &' % (x,topology,x,x,x))
+        print 'starting command: java main.java.peer.ClientDriver ./tests/test%s %s 10.0.0.%s < ../topologies/topo/input_%s.txt > ../topologies/topo/out_%s.txt &' % (x,topology,x,x,x)
+        net.get('h%s'%x).cmd('java main.java.peer.ClientDriver ./tests/test%s %s 10.0.0.%s < ../topologies/topo/input_%s.txt > ../topologies/topo/out_%s.txt &' % (x,topology,x,x,x))
     
     ##                 ##
     #  End custom cmds  #

@@ -1,0 +1,442 @@
+INFO: Initializing Peer..../tests/test5 10.0.0.5 linear
+INFO: Client Process initialized...
+INFO: Indexing Files in: ././tests/test5/
+
+Input 'exit' to close the application at anytime
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_001.bin 450572731345146
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_001.bin 450572759922194
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_002.bin 450573520935306
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_002.bin 450574203283130
+LOGGING: Receiving query: file_002.bin 450575018598487
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_003.bin 450575344193427
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_003.bin 450575563678189
+LOGGING: Receiving query: file_003.bin 450576037984021
+LOGGING: Receiving query: file_003.bin 450576381624885
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_004.bin 450576664892694
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_004.bin 450576853646782
+LOGGING: Receiving query: file_004.bin 450577327739505
+LOGGING: Receiving query: file_004.bin 450577733079076
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_005.bin 450578013969292
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_006.bin 450578641951026
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_006.bin 450578643683171
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_007.bin 450579149887073
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_007.bin 450579337609714
+LOGGING: Receiving query: file_007.bin 450579770943308
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_008.bin 450580155342185
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_008.bin 450580311886175
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_009.bin 450580935193128
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_009.bin 450581153728998
+LOGGING: Receiving query: file_009.bin 450581592473557
+LOGGING: Receiving query: file_009.bin 450581964363006
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_010.bin 450582278399096
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_010.bin 450582279538119
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_011.bin 450582685167528
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_011.bin 450582686945938
+LOGGING: Receiving query: file_011.bin 450582841571032
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_012.bin 450583307455909
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_012.bin 450583308471694
+LOGGING: Receiving query: file_012.bin 450583433465318
+LOGGING: Receiving query: file_012.bin 450583743962880
+LOGGING: Receiving query: file_012.bin 450584175804663
+LOGGING: Receiving query: file_012.bin 450584703919580
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_013.bin 450584951650150
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_014.bin 450585565061022
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_014.bin 450585783429303
+LOGGING: Receiving query: file_014.bin 450586188533465
+LOGGING: Receiving query: file_014.bin 450586589111086
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_015.bin 450586839360141
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_015.bin 450586997529880
+LOGGING: Receiving query: file_015.bin 450587459657840
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_016.bin 450587801741979
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_016.bin 450587930305072
+LOGGING: Receiving query: file_016.bin 450588395631233
+LOGGING: Receiving query: file_016.bin 450588797779095
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_017.bin 450589078003620
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_017.bin 450589205215612
+LOGGING: Receiving query: file_017.bin 450589606887431
+LOGGING: Receiving query: file_017.bin 450590040820491
+LOGGING: Receiving query: file_017.bin 450590502754123
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_018.bin 450590721996142
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_018.bin 450590940282705
+LOGGING: Receiving query: file_018.bin 450591343041732
+LOGGING: Receiving query: file_018.bin 450591805756816
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_019.bin 450592055147424
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_019.bin 450592056118515
+LOGGING: Receiving query: file_019.bin 450592210351825
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_020.bin 450592677275067
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_020.bin 450592678386283
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_021.bin 450593206835657
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_021.bin 450593303991299
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_022.bin 450593861755278
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_022.bin 450593986726489
+LOGGING: Receiving query: file_022.bin 450594420159998
+LOGGING: Receiving query: file_022.bin 450594790958108
+LOGGING: Receiving query: file_022.bin 450595351904749
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_023.bin 450595569762695
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_023.bin 450595570597562
+LOGGING: Receiving query: file_023.bin 450595725208901
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_024.bin 450596191914489
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_024.bin 450596316431908
+LOGGING: Receiving query: file_024.bin 450596721503007
+LOGGING: Receiving query: file_024.bin 450597091714281
+LOGGING: Receiving query: file_024.bin 450597625792533
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_025.bin 450597842209102
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_025.bin 450597843008011
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_026.bin 450598372535455
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_026.bin 450598589584227
+LOGGING: Receiving query: file_026.bin 450599053723288
+LOGGING: Receiving query: file_026.bin 450599519474206
+LOGGING: Receiving query: file_026.bin 450599983445709
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_027.bin 450600230512849
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_027.bin 450600447039964
+LOGGING: Receiving query: file_027.bin 450600906313028
+LOGGING: Receiving query: file_027.bin 450601349029892
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_028.bin 450601665002861
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_028.bin 450601881618052
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_029.bin 450602375117389
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_029.bin 450602529270278
+LOGGING: Receiving query: file_029.bin 450602993607664
+LOGGING: Receiving query: file_029.bin 450603425247482
+LOGGING: Receiving query: file_029.bin 450603857377480
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_030.bin 450604104773571
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_030.bin 450604105685328
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_031.bin 450604632914317
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_032.bin 450605225467721
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_032.bin 450605441286386
+LOGGING: Receiving query: file_032.bin 450605840661777
+LOGGING: Receiving query: file_032.bin 450606303938358
+LOGGING: Receiving query: file_032.bin 450606858580596
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_033.bin 450607106223832
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_034.bin 450607633710746
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_034.bin 450607634377362
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_035.bin 450608194699646
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_035.bin 450608380380783
+LOGGING: Receiving query: file_035.bin 450608812103771
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_036.bin 450609183419030
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_036.bin 450609401518284
+LOGGING: Receiving query: file_036.bin 450609802490917
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_037.bin 450610177524574
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_038.bin 450610740468627
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_038.bin 450610956615520
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_039.bin 450611517738716
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_040.bin 450612015297133
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_040.bin 450612199914409
+LOGGING: Receiving query: file_040.bin 450612664287472
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_041.bin 450613128513195
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_041.bin 450613129141752
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_042.bin 450613671257739
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_042.bin 450613672184466
+LOGGING: Receiving query: file_042.bin 450613827138716
+LOGGING: Receiving query: file_042.bin 450614073247877
+LOGGING: Receiving query: file_042.bin 450614442574590
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_043.bin 450614772115677
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: query sent
+LOGGING: Requested file
+
+Input name of file you want to obtain:
+
+LOGGING: Requesting file: file_044.bin 450615176304714
+id 10.0.0.5
+LOGGING: begining query
+LOGGING: Receiving query: file_044.bin 450615330343195
+LOGGING: Receiving query: file_044.bin 450615787305410
+LOGGING: Receiving query: file_044.bin 450616183530730

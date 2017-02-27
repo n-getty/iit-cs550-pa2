@@ -15,7 +15,7 @@ public class Client {
     // contains the file objects
     List<File> files = new ArrayList<File>();
     // contains the list of file names ( for registering )
-    int maxTTL = 10;
+    int maxTTL = 2;
     PeerImpl peerServ;
     int sequenceNum = 0;
 
@@ -31,14 +31,14 @@ public class Client {
 
     public  String[] getNeighbors(String folder){
         String[] neighbors = null;
-        try {
+	try {
             List<String> neighborList = new ArrayList<String>();
             File fold = new File("../topologies/" + folder + ".txt");
             Scanner fileReader = new Scanner(fold);
             while(fileReader.hasNextLine()){
                 neighborList.add(fileReader.nextLine());
             }
-            neighbors = neighborList.get(Integer.parseInt(id.substring(id.length()-1))-1).split(" ");
+	    neighbors = neighborList.get(Integer.parseInt(id.substring(id.length()-1))-1).split(" ");
         }
         catch(IOException e){
             System.err.println("Client exception: " + e.toString());

@@ -57,7 +57,8 @@ public class ClientDriver {
                 FileOutputStream out = new FileOutputStream(new File(folder + "/" + query));
                 out.write(x);
                 out.close();
-
+		System.out.println("LOGGING: Received File " + folder + "/" + query);
+		
             } catch (IOException e) {
                 System.out.println("Exception" + e);
             }

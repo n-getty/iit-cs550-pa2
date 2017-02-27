@@ -33,7 +33,7 @@ for n in `seq 1 $3`; do
     #
     # add overlap factor to random other folders (and possibly delete from master)
     # compute $2 permuations and sort in reverse order
-    files=($(shuf -i 1-10 -n $2 | sort -rn))
+    files=($(shuf -i 1-$1 -n $2 | sort -rn))
     #
     for file in "${files[@]}"; do
 	if [ $file -ne 1 ]; then
@@ -49,6 +49,6 @@ for n in `seq 1 $3`; do
     done
 done
 for p in `seq 2 $4`; do
-	echo exi >> ../topologies/topo/input_$(printf %d "$p").txt   
+	#echo exit >> ../topologies/topo/input_$(printf %d "$p").txt   
     done
 exit

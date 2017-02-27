@@ -42,7 +42,7 @@ public class PeerImpl implements PeerInt {
             };
             PeerInt stub = (PeerInt) UnicastRemoteObject.exportObject(this, 0);
             // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.getRegistry(id);
+            Registry registry = LocateRegistry.getRegistry();
             registry.rebind("PeerInt", stub);
             System.err.println("PeerImpl ready");
         } catch (Exception e) {
@@ -120,13 +120,13 @@ public class PeerImpl implements PeerInt {
     public void queryNeighbors(String fileName, int TTL, Pair<String, Integer> messageID){
         try {
             for (String neighbor : neighbors) {
-		System.out.println("neighbor found: " + neighbor);
+		//System.out.println("neighbor found: " + neighbor);
 		Registry registry = LocateRegistry.getRegistry(neighbor,1099);
-		System.out.println("locate registry succeeded " + registry);
+		//System.out.println("locate registry succeeded " + registry);
 		PeerInt peerStub = (PeerInt) registry.lookup("PeerInt");
-		System.out.println("registry lookup " + peerStub);
+		//System.out.println("registry lookup " + peerStub);
 		peerStub.query(messageID, TTL, fileName);
-		System.out.println("query succedded");
+		//System.out.println("query succedded");
 	    }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());

@@ -1,0 +1,8 @@
+INFO: Initializing Peer..../tests/test9 10.0.0.9 star
+INFO: Client Process initialized...
+INFO: Indexing Files in: ././tests/test9/
+
+Input 'exit' to close the application at anytime
+
+Input name of file you want to obtain:
+
