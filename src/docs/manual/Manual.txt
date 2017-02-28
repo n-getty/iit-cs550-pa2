@@ -1,0 +1,3 @@
+In lieu of a step-by-step manual, javadoc is provided which details the purpose of each class and method.
+
+Step-by-step instructions are given in the test.pdf document. The tests ran in this document provide the output given in the same folder.

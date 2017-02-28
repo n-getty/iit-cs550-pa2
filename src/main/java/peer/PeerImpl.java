@@ -68,6 +68,9 @@ public class PeerImpl implements PeerInt {
         return x;
     }
 
+    /**
+     * Query a peer for a file, this query propagates until the time-to-live reaches 0
+     */
     public void query (Pair<String, Integer> messageID, int TTL, String fileName)
             throws RemoteException {
 	try {
@@ -87,7 +90,9 @@ public class PeerImpl implements PeerInt {
         }
     }
 
-
+    /**
+     * A Query hit is propagated back to the original peer to request a file so a direct file request may begin
+     */
     public void queryhit(Pair<String, Integer> messageID, String fileName, String peerIP, int portNumber)
             throws RemoteException {
         long time;
@@ -117,6 +122,9 @@ public class PeerImpl implements PeerInt {
         }
     }
 
+    /**
+     * Query all of this peers neighbors for a file
+     */
     public void queryNeighbors(String fileName, int TTL, Pair<String, Integer> messageID){
         try {
             for (String neighbor : neighbors) {
@@ -134,6 +142,9 @@ public class PeerImpl implements PeerInt {
         }
     }
 
+    /**
+     * Write the file to the peer's local disk
+     */
     public void writeFile(byte[] x, String fileName){
         try {
             System.out.println("LOGGING: Received File " + folder + "/" + fileName);

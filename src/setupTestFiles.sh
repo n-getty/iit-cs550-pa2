@@ -21,7 +21,7 @@ rm ../topologies/topo/*
 #
 # create directories and initialize input files
 for n in `seq 1 $1`; do
-    mkdir tests/test$(($n))
+    mkdir tests/test$(($n))/
     touch ../topologies/topo/input_$(($n)).txt
 done
 #
@@ -36,19 +36,19 @@ for n in `seq 1 $3`; do
     files=($(shuf -i 1-$1 -n $2 | sort -rn))
     #
     for file in "${files[@]}"; do
-	if [ $file -ne 1 ]; then
-	    # copy to new location
-	    cp tests/test1/file_$(printf %03d "$n").bin tests/test$(printf "$file")/file_$(printf %03d "$n").bin
-	else
-	    # remove from origional
-	    rm tests/test1/file_$(printf %03d "$n").bin
-	fi
+        if [ $file -ne 1 ]; then
+            # copy to new location
+            cp tests/test1/file_$(printf %03d "$n").bin tests/test$(printf "$file")/file_$(printf %03d "$n").bin
+        else
+            # remove from origional
+            rm tests/test1/file_$(printf %03d "$n").bin
+        fi
     done
     for p in `seq 2 $4`; do
-	echo file_$(printf %03d "$n").bin >> ../topologies/topo/input_$(printf %d "$p").txt   
+	    echo file_$(printf %03d "$n").bin >> ../topologies/topo/input_$(printf %d "$p").txt
     done
 done
-for p in `seq 2 $4`; do
-	#echo exit >> ../topologies/topo/input_$(printf %d "$p").txt   
-    done
+#for p in `seq 2 $4`; do
+#    echo exit >> ../topologies/topo/input_$(printf %d "$p").txt
+#done
 exit

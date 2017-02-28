@@ -29,6 +29,9 @@ public class Client {
         }
     }
 
+    /**
+     * Return the associated list of neighbors from the correct topology config file
+     */
     public  String[] getNeighbors(String folder){
         String[] neighbors = null;
 	try {
@@ -67,26 +70,30 @@ public class Client {
         return fileList;
     }
 
+    /**
+     * Add a file to a peers local index
+     */
     public void register(String fileName){
         peerServ.fileIndex.add(fileName);
     }
 
+    /**
+     * Remove a file from a peers local index
+     */
     public void deregister(String fileName){
         peerServ.fileIndex.remove(fileName);
     }
 
     /**
-     * Retrieve a file from a given peer
+     * Initiate a file retrieval request in the network
      */
     public void retrieve(String fileName){
         try {
-	    System.out.println("id " + id);
+	        System.out.println("id " + id);
             Pair<String, Integer> messageID = new Pair(id, sequenceNum++);
-
-	    System.out.println("LOGGING: begining query");
-	    peerServ.queryNeighbors(fileName, maxTTL, messageID);
-	    System.out.println("LOGGING: query sent");
-	    
+	        System.out.println("LOGGING: begining query");
+	        peerServ.queryNeighbors(fileName, maxTTL, messageID);
+	        System.out.println("LOGGING: query sent");
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
